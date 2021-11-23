@@ -50,5 +50,5 @@ test(' Test #17 - Criar utilizador', () => {
       expect(res.body.name).toBe('Quimbe Signup');
       expect(res.body).toHaveProperty('email');
       expect(res.body).not.toHaveProperty('password');
-    });
+    }); //continuar
 });
