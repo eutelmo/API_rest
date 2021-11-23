@@ -19,8 +19,21 @@ test('Test #2 - Inserir utilizadores', () => {
     .then((res) => {
       expect(res.status).toBe(201);
       expect(res.body.name).toBe('Quimbe Alberto');
+      expect(res.body).not.toHaveProperty('password');
     });
 });
+
+test('Test #2.1 - Guardar a palavra-passe encriptada', async () =>{
+  const res = await request(app).post('/users')
+    .send({ name: 'Quimbe Alberto', email: `${Date.now()}@ipca.pt`, password: '1234' });
+  expect(res.status).toBe(201);
+
+  const { id } = res.body;
+  const userBD = await app.services.user.findOne({ id });
+  expect(userBD.password).not.toBeUndefined();
+  expect(userBD.password).not.toBe('12345');
+});
+
 test(' Test #3 - Inerir utilizador sem nome', () => {
   return request(app).post('/users')
     .send({ email: mail, password: '12345' })
