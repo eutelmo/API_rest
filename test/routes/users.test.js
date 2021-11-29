@@ -1,12 +1,22 @@
 const request = require('supertest');
+const jwt = require('jwt-simple');
 
 const app = require('../../src/app');
-const user = require('../../src/services/user');
+
+const MAIN_ROUTE = '/v1/users';
 
 const mail = `${Date.now()}@ipca.pt`;
+const secret = 'ipca!DWM@202122';
+let user;
+
+beforeAll(async () => {
+  const res = await app.services.user.save({ name: 'Quimbe Alberto', email: mail, password: '1234' });
+  user = { ...res[0] };
+  user.token = jwt.encode(user, secret);
+});
 
 test('test #1 - Listar os utilizadores', () => {
-  return request(app).get('/users')
+  return request(app).get(MAIN_ROUTE).set('authorization', `bearer ${user.token}`)
     .then((res) => {
       expect(res.status).toBe(200);
       expect(res.body.length).toBeGreaterThan(0);
