@@ -7,7 +7,7 @@ module.exports = {
       password: 'Scubycao1310',
       database: 'pessoal',
     },
-    debug: true,
+    debug: false,
     migrations: {
       directory: 'src/migrations',
     },

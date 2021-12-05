@@ -35,7 +35,7 @@ test('Test #15 - Tentativa de autenticacao com utilizador errado', () => {
 });
 
 test('Test #16 - Aceder a rotas protegidas', () => {
-  return request(app).get('/users')
+  return request(app).get('/v1/users')
     .then((res) => {
       expect(res.status).toBe(401);
     });
@@ -50,5 +50,5 @@ test(' Test #17 - Criar utilizador', () => {
       expect(res.body.name).toBe('Quimbe Signup');
       expect(res.body).toHaveProperty('email');
       expect(res.body).not.toHaveProperty('password');
-    }); //continuar
+    });
 });
